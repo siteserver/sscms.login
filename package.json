@@ -1,0 +1,92 @@
+{
+  "name": "login",
+  "displayName": "用户登录插件",
+  "description": "SSCMS 用户登录插件",
+  "version": "1.0.0",
+  "license": "GPL-3.0",
+  "publisher": "sscms",
+  "engines": {
+    "sscms": "^7.0.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "内容"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/siteserver/sscms.login"
+  },
+  "icon": "/ss-admin/login/logo.svg",
+  "output": "",
+  "main": "SSCMS.Login.dll",
+  "applyToSites": false,
+  "applyToChannels": false,
+  "extensions": {
+    "permissions": {
+      "login_weixin": {
+        "text": "微信登录设置",
+        "type": ["app"]
+      },
+      "login_qq": {
+        "text": "QQ 登录设置",
+        "type": ["app"]
+      },
+      "login_weibo": {
+        "text": "微博登录设置",
+        "type": ["app"]
+      }
+    },
+    "menus:app_plugins_all:menus": {
+      "login_all": {
+        "text": "第三方登录设置",
+        "iconClass": "fa fa-user",
+        "type": ["app"],
+        "permissions": [
+          "login_weixin",
+          "login_qq",
+          "login_weibo"
+        ],
+        "menus": {
+          "login_weixin": {
+            "text": "微信登录设置",
+            "link": "/ss-admin/login/weixin/",
+            "permissions": ["login_weixin"],
+            "order": 1
+          },
+          "login_qq": {
+            "text": "QQ 登录设置",
+            "link": "/ss-admin/login/qq/",
+            "permissions": ["login_qq"],
+            "order": 2
+          },
+          "login_weibo": {
+            "text": "微博登录设置",
+            "link": "/ss-admin/login/weibo/",
+            "permissions": ["login_weibo"],
+            "order": 3
+          }
+        }
+      }
+    },
+    "tables": {
+      "sscms_login_oauth": {
+        "columns": [
+          {
+            "attributeName": "UserName",
+            "dataType": "VarChar"
+          },
+          {
+            "attributeName": "Source",
+            "dataType": "VarChar"
+          },
+          {
+            "attributeName": "UniqueId",
+            "dataType": "VarChar"
+          }
+        ]
+      }
+    }
+  }
+}

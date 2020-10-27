@@ -1,0 +1,7 @@
+{
+    "publisher": "sscms",
+    "main": "index.html",
+    "icon": "images/icon.png",
+    "type": "register",
+    "description": "用户注册模板"
+}

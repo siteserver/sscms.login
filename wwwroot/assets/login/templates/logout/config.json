@@ -1,0 +1,7 @@
+{
+    "publisher": "sscms",
+    "main": "index.html",
+    "icon": "images/icon.png",
+    "type": "logout",
+    "description": "退出登录模板"
+}

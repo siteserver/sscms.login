@@ -1,0 +1,7 @@
+{
+    "publisher": "sscms",
+    "main": "index.html",
+    "icon": "images/icon.png",
+    "type": "login",
+    "description": "用户登录模板"
+}

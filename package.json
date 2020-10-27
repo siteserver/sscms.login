@@ -2,11 +2,11 @@
   "name": "login",
   "displayName": "用户登录插件",
   "description": "SSCMS 用户登录插件",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "license": "GPL-3.0",
   "publisher": "sscms",
   "engines": {
-    "sscms": "^7.0.0"
+    "sscms": "^7.0.4"
   },
   "categories": [
     "Other"
@@ -25,6 +25,10 @@
   "applyToChannels": false,
   "extensions": {
     "permissions": {
+      "login_templates": {
+        "text": "显示模板",
+        "type": ["app"]
+      },
       "login_weixin": {
         "text": "微信登录设置",
         "type": ["app"]
@@ -40,32 +44,50 @@
     },
     "menus:app_plugins_all:menus": {
       "login_all": {
-        "text": "第三方登录设置",
+        "text": "用户登录插件",
         "iconClass": "fa fa-user",
         "type": ["app"],
         "permissions": [
+          "login_templates",
           "login_weixin",
           "login_qq",
           "login_weibo"
         ],
         "menus": {
-          "login_weixin": {
-            "text": "微信登录设置",
-            "link": "/ss-admin/login/weixin/",
-            "permissions": ["login_weixin"],
+          "login_template": {
+            "text": "显示模板",
+            "link": "/ss-admin/login/templates/?type=login",
+            "permissions": ["login_templates"],
             "order": 1
           },
-          "login_qq": {
-            "text": "QQ 登录设置",
-            "link": "/ss-admin/login/qq/",
-            "permissions": ["login_qq"],
-            "order": 2
-          },
-          "login_weibo": {
-            "text": "微博登录设置",
-            "link": "/ss-admin/login/weibo/",
-            "permissions": ["login_weibo"],
-            "order": 3
+          "login_connect_all": {
+            "text": "第三方登录设置",
+            "permissions": [
+              "login_weixin",
+              "login_qq",
+              "login_weibo"
+            ],
+            "order": 2,
+            "menus": {
+              "login_weixin": {
+                "text": "微信登录设置",
+                "link": "/ss-admin/login/connectWeixin/",
+                "permissions": ["login_weixin"],
+                "order": 1
+              },
+              "login_qq": {
+                "text": "QQ 登录设置",
+                "link": "/ss-admin/login/connectQq/",
+                "permissions": ["login_qq"],
+                "order": 2
+              },
+              "login_weibo": {
+                "text": "微博登录设置",
+                "link": "/ss-admin/login/connectWeibo/",
+                "permissions": ["login_weibo"],
+                "order": 3
+              }
+            }
           }
         }
       }

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SSCMS.Login.Core;
+using SSCMS.Utils;
 
 namespace SSCMS.Login.Controllers
 {
@@ -42,7 +43,7 @@ namespace SSCMS.Login.Controllers
                 return Redirect(url);
             }
 
-            return BadRequest("类型不正确");
+            return this.Error("类型不正确");
         }
     }
 }

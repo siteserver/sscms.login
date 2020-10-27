@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>用户登录</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <script type="text/javascript" src="/assets/login/lib/iframe-resizer-3.6.3/iframeResizer.contentWindow.min.js"></script>
+  <link href="/sitefiles/assets/lib/elementui/themechalk/index.css" rel="stylesheet" type="text/css" />
+  <link href="/sitefiles/assets/css/element-ui.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <div id="main">
+    <template v-if="pageType === 'form'">
+
+      <el-form size="medium" ref="form" :model="form" label-width="100px" style="margin-top: 15px;">
+
+        <el-form-item label="账 号" prop="account" :rules="{ required: true, message: '请输入账号' }">
+          <el-input v-model="form.account" placeholder="请输入用户名/手机号/邮箱" autocomplete="off"></el-input>
+        </el-form-item>
+        
+        <el-form-item label="密 码" prop="password" :rules="{ required: true, message: '请输入密码' }">
+          <el-input v-model="form.password" type="password" placeholder="请输入密码" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item label="验证码" prop="captcha" :rules="{ required: true, message: '请输入验证码' }">
+          <el-col :span="6">
+            <el-input v-model="form.captcha" placeholder="请输入验证码"></el-input>
+          </el-col>
+          <el-col :span="18">
+            <img :src="captchaUrl" v-on:click="apiCaptchaLoad" style="width: 105px; height: 38px; margin-left: 5px;" />
+          </el-col>
+        </el-form-item>
+        
+      </el-form>
+
+      <el-row style="text-align: center;">
+        <el-divider></el-divider>
+        <div style="height: 10px"></div>
+        <el-button type="primary" size="medium" v-on:click="btnSubmitClick">登 录</el-button>
+        <div style="height: 10px"></div>
+      </el-row>
+
+    </template>
+    <template v-else-if="pageType === 'success'">
+
+      <div role="alert" class="el-alert el-alert--success is-light" style="padding: 15px">
+        <i class="el-alert__icon el-icon-success is-big"></i>
+        <div class="el-alert__content">
+          <span class="el-alert__title is-bold">
+            {{ user.displayName }} 欢迎回来
+          </span>
+        </div>
+      </div>
+
+    </template>
+    <template v-else>
+      <el-row style="margin-top: 100px; text-align: center">
+        <img src="/assets/login/images/loading.gif" />
+        <p>载入中，请稍后...</p>
+      </el-row>
+    </template>
+  </div>
+</body>
+
+</html>
+
+<script src="/sitefiles/assets/lib/es6-promise.auto.min.js" type="text/javascript"></script>
+<script src="/sitefiles/assets/lib/axios-0.17.1.min.js" type="text/javascript"></script>
+<script src="/sitefiles/assets/lib/core-js-3.6.5.min.js" type="text/javascript"></script>
+<script src="/sitefiles/assets/lib/lodash-4.17.10.min.js" type="text/javascript"></script>
+<script src="/sitefiles/assets/lib/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/sitefiles/assets/lib/vue-2.5.16.min.js" type="text/javascript"></script>
+<script src="/sitefiles/assets/lib/elementui/index.js"></script>
+<script src="/sitefiles/assets/js/plugin.js" type="text/javascript"></script>
+<script src="/sitefiles/assets/js/utils.js" type="text/javascript"></script>
+<script src="/assets/login/login.js" type="text/javascript"></script>

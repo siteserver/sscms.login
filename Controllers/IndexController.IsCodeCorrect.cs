@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SSCMS.Login.Core;
+using SSCMS.Models;
 
 namespace SSCMS.Login.Controllers
 {
@@ -9,9 +10,11 @@ namespace SSCMS.Login.Controllers
         [HttpPost, Route(RouteIsCodeCorrect)]
         public async Task<ActionResult<IsCodeCorrectResult>> IsCodeCorrect([FromBody] IsCodeCorrectRequest request)
         {
-            var dbCode = CacheUtils.Get<string>(GetSendSmsCacheKey(request.Mobile));
+            var cacheKey = CacheUtils.GetCacheKey(nameof(IndexController), nameof(Administrator), request.Mobile);
+            var dbCode = _cacheManager.Get<int>(cacheKey);
 
-            var isCorrect = request.Code == dbCode;
+            var isCorrect = !(dbCode == 0 || request.Code != dbCode.ToString());
+
             var token = string.Empty;
             if (isCorrect)
             {

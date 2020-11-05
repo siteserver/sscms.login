@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using SSCMS.Configuration;
-using SSCMS.Login.Abstractions;
+﻿using Microsoft.AspNetCore.Mvc;
 using SSCMS.Models;
 using SSCMS.Repositories;
 using SSCMS.Services;
@@ -9,19 +6,17 @@ using SSCMS.Services;
 namespace SSCMS.Login.Controllers
 {
     [Route("api/login/login")]
-    public partial class LoginController : ControllerBase
+    public partial class LoginAccountController : ControllerBase
     {
         private const string Route = "";
 
         private readonly IAuthManager _authManager;
         private readonly IUserRepository _userRepository;
-        private readonly ILoginManager _loginManager;
 
-        public LoginController(IAuthManager authManager, IUserRepository userRepository, ILoginManager loginManager)
+        public LoginAccountController(IAuthManager authManager, IUserRepository userRepository)
         {
             _authManager = authManager;
             _userRepository = userRepository;
-            _loginManager = loginManager;
         }
 
         public class GetResult

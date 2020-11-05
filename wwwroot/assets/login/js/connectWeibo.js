@@ -23,7 +23,7 @@ var methods = {
 
       $this.url = res.url;
     }).catch(function (error) {
-      utils.error($this, error);
+      utils.error(error);
     }).then(function () {
       utils.loading($this, false);
     });
@@ -39,7 +39,7 @@ var methods = {
       $this.url = res.value;
       $this.$message.success('设置保存成功');
     }).catch(function (error) {
-      utils.error($this, error);
+      utils.error(error);
     }).then(function () {
       utils.loading($this, false);
     });

@@ -17,17 +17,14 @@ namespace SSCMS.Login.Controllers
         private readonly IAuthManager _authManager;
         private readonly IUserRepository _userRepository;
         private readonly ILogRepository _logRepository;
+        private readonly ICacheManager _cacheManager;
 
-        public IndexController(IAuthManager authManager, IUserRepository userRepository, ILogRepository logRepository)
+        public IndexController(IAuthManager authManager, IUserRepository userRepository, ILogRepository logRepository, ICacheManager cacheManager)
         {
             _authManager = authManager;
             _userRepository = userRepository;
             _logRepository = logRepository;
-        }
-
-        private static string GetSendSmsCacheKey(string mobile)
-        {
-            return $"SS.Home.Api.ActionsPost.SendSms.{mobile}.Code";
+            _cacheManager = cacheManager;
         }
 
         public class EditRequest

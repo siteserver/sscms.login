@@ -1,0 +1,7 @@
+{
+    "publisher": "sscms",
+    "main": "index.html",
+    "icon": "images/icon.png",
+    "type": "lostPassword",
+    "description": "用户重置密码模板"
+}

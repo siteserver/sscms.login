@@ -5,7 +5,7 @@ using SSCMS.Utils;
 
 namespace SSCMS.Login.Controllers
 {
-    public partial class LoginController
+    public partial class LoginAccountController
     {
         [HttpPost, Route(Route)]
         public async Task<ActionResult<GetResult>> Submit([FromBody] SubmitRequest request)

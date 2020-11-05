@@ -14,7 +14,7 @@ namespace SSCMS.Login.Controllers.Admin
                 return Unauthorized();
 
             var templateInfo = _loginManager.GetTemplateInfo(request.Name);
-            var html = await _loginManager.GetTemplateHtmlAsync(templateInfo);
+            var html = _loginManager.GetTemplateHtml(templateInfo);
 
             var isSystem = templateInfo.Publisher == "sscms";
             if (isSystem)

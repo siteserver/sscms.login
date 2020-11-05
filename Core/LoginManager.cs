@@ -36,14 +36,14 @@ namespace SSCMS.Login.Core
             var settings = new WeixinSettings
             {
                 IsWeixin =
-                    await _pluginConfigRepository.GetConfigAsync<bool>(PluginId, 0,
+                    await _pluginConfigRepository.GetAsync<bool>(PluginId,
                         nameof(WeixinSettings.IsWeixin)),
                 WeixinAppId =
-                    await _pluginConfigRepository.GetConfigAsync<string>(PluginId, 0,
+                    await _pluginConfigRepository.GetAsync<string>(PluginId,
                         nameof(WeixinSettings.WeixinAppId)),
                 WeixinAppSecret =
-                await _pluginConfigRepository.GetConfigAsync<string>(PluginId, 0,
-                nameof(WeixinSettings.WeixinAppSecret))
+                    await _pluginConfigRepository.GetAsync<string>(PluginId,
+                        nameof(WeixinSettings.WeixinAppSecret))
             };
             return settings;
         }
@@ -53,13 +53,13 @@ namespace SSCMS.Login.Core
             var settings = new QqSettings
             {
                 IsQq =
-                    await _pluginConfigRepository.GetConfigAsync<bool>(PluginId, 0,
+                    await _pluginConfigRepository.GetAsync<bool>(PluginId,
                         nameof(QqSettings.IsQq)),
                 QqAppId =
-                    await _pluginConfigRepository.GetConfigAsync<string>(PluginId, 0,
+                    await _pluginConfigRepository.GetAsync<string>(PluginId,
                         nameof(QqSettings.QqAppId)),
                 QqAppKey =
-                    await _pluginConfigRepository.GetConfigAsync<string>(PluginId, 0,
+                    await _pluginConfigRepository.GetAsync<string>(PluginId,
                         nameof(QqSettings.QqAppKey)),
             };
             return settings;
@@ -70,13 +70,13 @@ namespace SSCMS.Login.Core
             var settings = new WeiboSettings
             {
                 IsWeibo =
-                    await _pluginConfigRepository.GetConfigAsync<bool>(PluginId, 0,
+                    await _pluginConfigRepository.GetAsync<bool>(PluginId,
                         nameof(WeiboSettings.IsWeibo)),
                 WeiboAppKey =
-                    await _pluginConfigRepository.GetConfigAsync<string>(PluginId, 0,
+                    await _pluginConfigRepository.GetAsync<string>(PluginId,
                         nameof(WeiboSettings.WeiboAppKey)),
                 WeiboAppSecret =
-                    await _pluginConfigRepository.GetConfigAsync<string>(PluginId, 0,
+                    await _pluginConfigRepository.GetAsync<string>(PluginId,
                         nameof(WeiboSettings.WeiboAppSecret))
             };
             return settings;
@@ -84,23 +84,23 @@ namespace SSCMS.Login.Core
 
         public async Task SetWeixinSettingsAsync(WeixinSettings settings)
         {
-            await _pluginConfigRepository.SetConfigAsync(PluginId, 0, nameof(WeixinSettings.IsWeixin), settings.IsWeixin);
-            await _pluginConfigRepository.SetConfigAsync(PluginId, 0, nameof(WeixinSettings.WeixinAppId), settings.WeixinAppId);
-            await _pluginConfigRepository.SetConfigAsync(PluginId, 0, nameof(WeixinSettings.WeixinAppSecret), settings.WeixinAppSecret);
+            await _pluginConfigRepository.SetAsync(PluginId, nameof(WeixinSettings.IsWeixin), settings.IsWeixin);
+            await _pluginConfigRepository.SetAsync(PluginId, nameof(WeixinSettings.WeixinAppId), settings.WeixinAppId);
+            await _pluginConfigRepository.SetAsync(PluginId, nameof(WeixinSettings.WeixinAppSecret), settings.WeixinAppSecret);
         }
 
         public async Task SetQqSettingsAsync(QqSettings settings)
         {
-            await _pluginConfigRepository.SetConfigAsync(PluginId, 0, nameof(QqSettings.IsQq), settings.IsQq);
-            await _pluginConfigRepository.SetConfigAsync(PluginId, 0, nameof(QqSettings.QqAppId), settings.QqAppId);
-            await _pluginConfigRepository.SetConfigAsync(PluginId, 0, nameof(QqSettings.QqAppKey), settings.QqAppKey);
+            await _pluginConfigRepository.SetAsync(PluginId, nameof(QqSettings.IsQq), settings.IsQq);
+            await _pluginConfigRepository.SetAsync(PluginId, nameof(QqSettings.QqAppId), settings.QqAppId);
+            await _pluginConfigRepository.SetAsync(PluginId, nameof(QqSettings.QqAppKey), settings.QqAppKey);
         }
 
         public async Task SetWeiboSettingsAsync(WeiboSettings settings)
         {
-            await _pluginConfigRepository.SetConfigAsync(PluginId, 0, nameof(WeiboSettings.IsWeibo), settings.IsWeibo);
-            await _pluginConfigRepository.SetConfigAsync(PluginId, 0, nameof(WeiboSettings.WeiboAppKey), settings.WeiboAppKey);
-            await _pluginConfigRepository.SetConfigAsync(PluginId, 0, nameof(WeiboSettings.WeiboAppSecret), settings.WeiboAppSecret);
+            await _pluginConfigRepository.SetAsync(PluginId, nameof(WeiboSettings.IsWeibo), settings.IsWeibo);
+            await _pluginConfigRepository.SetAsync(PluginId, nameof(WeiboSettings.WeiboAppKey), settings.WeiboAppKey);
+            await _pluginConfigRepository.SetAsync(PluginId, nameof(WeiboSettings.WeiboAppSecret), settings.WeiboAppSecret);
         }
 
         public static string HttpGet(string url)
@@ -204,11 +204,11 @@ namespace SSCMS.Login.Core
             FileUtils.WriteText(configPath, configJson);
         }
 
-        public async Task<string> GetTemplateHtmlAsync(TemplateInfo templateInfo)
+        public string GetTemplateHtml(TemplateInfo templateInfo)
         {
             var directoryPath = GetTemplatesDirectoryPath();
             var htmlPath = PathUtils.Combine(directoryPath, templateInfo.Name, templateInfo.Main);
-            return await _pathManager.GetContentByFilePathAsync(htmlPath);
+            return _pathManager.GetContentByFilePath(htmlPath);
         }
 
         public void SetTemplateHtml(TemplateInfo templateInfo, string html)

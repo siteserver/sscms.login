@@ -4,7 +4,7 @@ using SSCMS.Models;
 
 namespace SSCMS.Login.Controllers
 {
-    public partial class LoginController
+    public partial class LoginMobileController
     {
         [HttpGet, Route(Route)]
         public async Task<ActionResult<GetResult>> Get()

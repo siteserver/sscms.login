@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SSCMS.Configuration;
+using SSCMS.Enums;
 using SSCMS.Utils;
 
 namespace SSCMS.Login.Controllers
 {
-    public partial class LoginAccountController
+    public partial class AccountController
     {
         [HttpPost, Route(Route)]
         public async Task<ActionResult<GetResult>> Submit([FromBody] SubmitRequest request)
@@ -27,6 +29,8 @@ namespace SSCMS.Login.Controllers
             }
 
             await _userRepository.UpdateLastActivityDateAndCountOfLoginAsync(user);
+            await _statRepository.AddCountAsync(StatType.UserLogin);
+            await _logRepository.AddUserLogAsync(user, Constants.ActionsLoginSuccess);
 
             var token = _authManager.AuthenticateUser(user, true);
 

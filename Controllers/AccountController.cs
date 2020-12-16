@@ -5,18 +5,22 @@ using SSCMS.Services;
 
 namespace SSCMS.Login.Controllers
 {
-    [Route("api/login/login")]
-    public partial class LoginAccountController : ControllerBase
+    [Route("api/login/account")]
+    public partial class AccountController : ControllerBase
     {
         private const string Route = "";
 
         private readonly IAuthManager _authManager;
         private readonly IUserRepository _userRepository;
+        private readonly IStatRepository _statRepository;
+        private readonly ILogRepository _logRepository;
 
-        public LoginAccountController(IAuthManager authManager, IUserRepository userRepository)
+        public AccountController(IAuthManager authManager, IUserRepository userRepository, IStatRepository statRepository, ILogRepository logRepository)
         {
             _authManager = authManager;
             _userRepository = userRepository;
+            _statRepository = statRepository;
+            _logRepository = logRepository;
         }
 
         public class GetResult

@@ -8,21 +8,25 @@ using SSCMS.Services;
 
 namespace SSCMS.Login.Controllers
 {
-    [Route("api/login/login")]
-    public partial class LoginMobileController : ControllerBase
+    [Route("api/login/mobile")]
+    public partial class MobileController : ControllerBase
     {
         private const string Route = "";
         private const string RouteSendSms = "actions/sendSms";
 
         private readonly IAuthManager _authManager;
         private readonly IUserRepository _userRepository;
+        private readonly IStatRepository _statRepository;
+        private readonly ILogRepository _logRepository;
         private readonly ISmsManager _smsManager;
         private readonly ICacheManager _cacheManager;
 
-        public LoginMobileController(IAuthManager authManager, IUserRepository userRepository, ISmsManager smsManager, ICacheManager cacheManager)
+        public MobileController(IAuthManager authManager, IUserRepository userRepository, IStatRepository statRepository, ILogRepository logRepository, ISmsManager smsManager, ICacheManager cacheManager)
         {
             _authManager = authManager;
             _userRepository = userRepository;
+            _statRepository = statRepository;
+            _logRepository = logRepository;
             _smsManager = smsManager;
             _cacheManager = cacheManager;
         }
@@ -46,7 +50,7 @@ namespace SSCMS.Login.Controllers
 
         private string GetSmsCodeCacheKey(string mobile)
         {
-            return CacheUtils.GetCacheKey(nameof(LoginMobileController), nameof(Administrator), mobile);
+            return CacheUtils.GetCacheKey(nameof(MobileController), nameof(Administrator), mobile);
         }
     }
 }

@@ -1,5 +1,5 @@
-var $url = '/login/loginMobile';
-var $urlSendSms = '/login/loginMobile/actions/sendSms';
+var $url = '/login/mobile';
+var $urlSendSms = '/login/mobile/actions/sendSms';
 
 var data = utils.init({
   redirectUrl: decodeURIComponent(utils.getQueryString('redirectUrl')),

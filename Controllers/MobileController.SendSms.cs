@@ -7,7 +7,7 @@ using SSCMS.Utils;
 
 namespace SSCMS.Login.Controllers
 {
-    public partial class LoginMobileController
+    public partial class MobileController
     {
         [HttpPost, Route(RouteSendSms)]
         public async Task<ActionResult<BoolResult>> SendSms([FromBody] SendSmsRequest request)

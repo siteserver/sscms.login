@@ -1,4 +1,4 @@
-var $url = '/login/loginAccount';
+var $url = '/login/account';
 
 var data = utils.init({
   redirectUrl: decodeURIComponent(utils.getQueryString('redirectUrl')),

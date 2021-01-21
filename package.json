@@ -2,11 +2,11 @@
   "name": "login",
   "displayName": "用户登录插件",
   "description": "SSCMS 用户登录插件",
-  "version": "1.0.4",
-  "license": "GPL-3.0",
+  "version": "1.0.5",
+  "license": "AGPL-3.0",
   "publisher": "sscms",
   "engines": {
-    "sscms": "^7.0.6"
+    "sscms": "^7.0.8"
   },
   "categories": [
     "Other"
@@ -46,7 +46,7 @@
     },
     "menus:app_plugins_all:menus": {
       "login_all": {
-        "text": "用户登录插件",
+        "text": "用户登录",
         "iconClass": "fa fa-user",
         "type": ["app"],
         "permissions": [

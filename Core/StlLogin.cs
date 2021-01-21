@@ -1,8 +1,10 @@
 ﻿using System.Collections.Specialized;
 using System.Threading.Tasks;
 using System.Web;
+using SSCMS.Configuration;
 using SSCMS.Parse;
 using SSCMS.Plugins;
+using SSCMS.Repositories;
 using SSCMS.Services;
 using SSCMS.Utils;
 
@@ -17,10 +19,12 @@ namespace SSCMS.Login.Core
         public const string AttributeRedirectUrl = "redirectUrl";
 
         private readonly IPathManager _pathManager;
+        private readonly ISiteRepository _siteRepository;
 
-        public StlLogin(IPathManager pathManager)
+        public StlLogin(IPathManager pathManager, ISiteRepository siteRepository)
         {
             _pathManager = pathManager;
+            _siteRepository = siteRepository;
         }
 
         public async Task<string> ParseAsync(IParseStlContext context)
@@ -51,7 +55,8 @@ namespace SSCMS.Login.Core
                 }
             }
 
-            var apiUrl = _pathManager.GetApiUrl();
+            var site = await _siteRepository.GetAsync(context.SiteId);
+            var apiUrl = _pathManager.GetApiHostUrl(site, Constants.ApiPrefix);
 
             if (!string.IsNullOrEmpty(url))
             {
@@ -71,7 +76,7 @@ namespace SSCMS.Login.Core
                 }
                 else if (StringUtils.EqualsIgnoreCase(url, "logout"))
                 {
-                    parsedUrl = _pathManager.GetRootUrl($"assets/login/templates/logout/index.html?apiUrl={HttpUtility.UrlEncode(apiUrl)}&redirectUrl={HttpUtility.UrlEncode(redirectUrl)}");
+                    parsedUrl = _pathManager.GetApiHostUrl(site, $"assets/login/templates/logout/index.html?apiUrl={HttpUtility.UrlEncode(apiUrl)}&redirectUrl={HttpUtility.UrlEncode(redirectUrl)}");
                 }
 
                 if (!string.IsNullOrEmpty(parsedUrl))
@@ -93,8 +98,8 @@ namespace SSCMS.Login.Core
             }
 
             var elementId = $"iframe_{StringUtils.GetShortGuid(false)}";
-            var libUrl = _pathManager.GetRootUrl("assets/login/lib/iframe-resizer-3.6.3/iframeResizer.min.js");
-            var pageUrl = _pathManager.GetRootUrl($"assets/login/templates/{type}/index.html?apiUrl={HttpUtility.UrlEncode(apiUrl)}&redirectUrl={HttpUtility.UrlEncode(redirectUrl)}");
+            var libUrl = _pathManager.GetApiHostUrl(site, "assets/login/lib/iframe-resizer-3.6.3/iframeResizer.min.js");
+            var pageUrl = _pathManager.GetApiHostUrl(site, $"assets/login/templates/{type}/index.html?apiUrl={HttpUtility.UrlEncode(apiUrl)}&redirectUrl={HttpUtility.UrlEncode(redirectUrl)}");
 
             return $@"
 <iframe id=""{elementId}"" frameborder=""0"" scrolling=""no"" src=""{pageUrl}"" style=""width: 1px;min-width: 100%;""></iframe>

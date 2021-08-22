@@ -1,3 +1,6 @@
+## 1.0.6
+* 修复Method not found: 'System.Threading.Tasks.Task SSCMS.Repositories.ILogRepository.AddUserLogAsync(SSCMS.Models.User, System.String, System.String)'.报错
+
 ## 1.0.5
 * 增加API独立部署支持
 

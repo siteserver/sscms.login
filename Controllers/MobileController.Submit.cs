@@ -32,7 +32,7 @@ namespace SSCMS.Login.Controllers
 
             await _userRepository.UpdateLastActivityDateAndCountOfLoginAsync(user);
             await _statRepository.AddCountAsync(StatType.UserLogin);
-            await _logRepository.AddUserLogAsync(user, Constants.ActionsLoginSuccess);
+            await _logRepository.AddUserLogAsync(user, PageUtils.GetIpAddress(Request), Constants.ActionsLoginSuccess);
 
             var token = _authManager.AuthenticateUser(user, true);
 

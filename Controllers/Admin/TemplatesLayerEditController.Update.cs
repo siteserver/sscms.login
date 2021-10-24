@@ -10,8 +10,8 @@ namespace SSCMS.Login.Controllers.Admin
 {
     public partial class TemplatesLayerEditController
     {
-        [HttpPut, Route(Route)]
-        public async Task<ActionResult<BoolResult>> Edit([FromBody] EditRequest request)
+        [HttpPost, Route(RouteUpdate)]
+        public async Task<ActionResult<BoolResult>> Update([FromBody] UpdateRequest request)
         {
             if (!await _authManager.HasAppPermissionsAsync(LoginManager.PermissionsTemplates))
                 return Unauthorized();

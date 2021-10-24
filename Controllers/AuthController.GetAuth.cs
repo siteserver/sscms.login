@@ -8,7 +8,7 @@ namespace SSCMS.Login.Controllers
     public partial class AuthController
     {
         [HttpGet, Route(Route)]
-        public async Task<ActionResult<RedirectResult>> GetAuth([FromRoute] string type, [FromQuery] GetAuthRequest request)
+        public async Task<ActionResult> GetAuth([FromRoute] string type, [FromQuery] GetAuthRequest request)
         {
             var oAuthType = OAuthType.Parse(type);
             var redirectUrl = request.RedirectUrl;

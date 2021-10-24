@@ -13,6 +13,7 @@ namespace SSCMS.Login.Controllers.Admin
     public partial class TemplatesLayerEditController : ControllerBase
     {
         private const string Route = "login/templatesLayerEdit";
+        private const string RouteUpdate = "login/templatesLayerEdit/actions/update";
 
         private readonly IAuthManager _authManager;
         private readonly ILoginManager _loginManager;
@@ -42,7 +43,7 @@ namespace SSCMS.Login.Controllers.Admin
             public string TemplateHtml { get; set; }
         }
 
-        public class EditRequest
+        public class UpdateRequest
         {
             public string Type { get; set; }
             public string OriginalName { get; set; }

@@ -6,7 +6,7 @@ namespace SSCMS.Login.Controllers.Admin
 {
     public partial class TemplatesController
     {
-        [HttpDelete, Route(Route)]
+        [HttpPost, Route(RouteDelete)]
         public async Task<ActionResult<ListResult>> Delete([FromBody] DeleteRequest request)
         {
             if (!await _authManager.HasAppPermissionsAsync(LoginManager.PermissionsTemplates))

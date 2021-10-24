@@ -1,3 +1,6 @@
+## 1.0.7
+* 修复微信登录/QQ登录/微博登录 Invalid type parameter 'Microsoft.AspNetCore.Mvc.RedirectResult' specified for 'ActionResult' 报错
+
 ## 1.0.6
 * 修复Method not found: 'System.Threading.Tasks.Task SSCMS.Repositories.ILogRepository.AddUserLogAsync(SSCMS.Models.User, System.String, System.String)'.报错
 

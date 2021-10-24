@@ -1,4 +1,5 @@
 var $url = '/login/templates';
+var $urlDelete = $url + '/actions/delete';
 
 var data = utils.init({
   type: utils.getQueryString('type'),
@@ -61,11 +62,9 @@ var methods = {
       text: '此操作将删除模板' + template.name + '，确认吗？',
       callback: function () {
         utils.loading(true);
-        $api.delete($url, {
-          data: {
-            type: $this.type,
-            name: template.name
-          }
+        $api.post($urlDelete, {
+          type: $this.type,
+          name: template.name
         }).then(function (response) {
           var res = response.data;
 

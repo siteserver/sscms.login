@@ -14,6 +14,7 @@ namespace SSCMS.Login.Controllers.Admin
     public partial class TemplatesController : ControllerBase
     {
         private const string Route = "login/templates";
+        private const string RouteDelete = "login/templates/actions/delete";
 
         private readonly IAuthManager _authManager;
         private readonly ILoginManager _loginManager;

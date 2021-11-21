@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json.Linq;
+using SSCMS.Login.Models;
 
 namespace SSCMS.Login.Core
 {
@@ -26,12 +28,12 @@ namespace SSCMS.Login.Core
                 $"https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id={AppId}&redirect_uri={HttpUtility.UrlEncode(RedirectUrl)}&state=STATE";
         }
 
-        private KeyValuePair<string, string> GetAccessTokenAndOpenId(string code)
+        private async Task<KeyValuePair<string, string>> GetAccessTokenAndOpenIdAsync(string code)
         {
             var url =
                 $"https://graph.qq.com/oauth2.0/token?grant_type=authorization_code&client_id={AppId}&client_secret={AppKey}&code={code}&redirect_uri={HttpUtility.UrlEncode(RedirectUrl)}";
 
-            var result = LoginManager.HttpGet(url);
+            var result = await LoginManager.GetStringAsync(url);
             result = result.Replace("callback(", string.Empty).Replace(");", string.Empty).Trim();
 
             if (result.Contains("error"))
@@ -44,7 +46,7 @@ namespace SSCMS.Login.Core
 
             url = $"https://graph.qq.com/oauth2.0/me?access_token={accessToken}";
 
-            result = LoginManager.HttpGet(url);
+            result = await LoginManager.GetStringAsync(url);
             result = result.Replace("callback(", string.Empty).Replace(");", string.Empty).Trim();
 
             if (result.Contains("error"))
@@ -77,15 +79,15 @@ namespace SSCMS.Login.Core
             return attributes;
         }
 
-        public void GetUserInfo(string code, out string displayName, out string avatarUrl, out string uniqueId)
+        public async Task<QqUserInfo> GetUserInfoAsync(string code)
         {
-            displayName = avatarUrl = string.Empty;
+            var userInfo = new QqUserInfo();
 
-            var pair = GetAccessTokenAndOpenId(code);
-            uniqueId = pair.Value;
+            var pair = await GetAccessTokenAndOpenIdAsync(code);
+            userInfo.UniqueId = pair.Value;
 
             var url = $"https://graph.qq.com/user/get_user_info?access_token={pair.Key}&oauth_consumer_key={AppId}&openid={pair.Value}";
-            var result = LoginManager.HttpGet(url);
+            var result = await LoginManager.GetStringAsync(url);
             result = result.Replace("callback(", string.Empty).Replace(");", string.Empty).Trim();
 
             var data = JObject.Parse(result);
@@ -96,8 +98,10 @@ namespace SSCMS.Login.Core
                 throw new Exception(result);
             }
 
-            displayName = data["nickname"].Value<string>();
-            avatarUrl = data["figureurl_qq_1"].Value<string>();
+            userInfo.DisplayName = data["nickname"].Value<string>();
+            userInfo.AvatarUrl = data["figureurl_qq_1"].Value<string>();
+
+            return userInfo;
         }
     }
 }

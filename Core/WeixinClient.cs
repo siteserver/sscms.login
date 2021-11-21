@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json.Linq;
+using SSCMS.Login.Models;
 
 namespace SSCMS.Login.Core
 {
@@ -26,12 +28,12 @@ namespace SSCMS.Login.Core
                 $"https://open.weixin.qq.com/connect/qrconnect?appid={AppId}&redirect_uri={HttpUtility.UrlEncode(RedirectUrl)}&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect";
         }
 
-        private KeyValuePair<string, string> GetAccessTokenAndOpenId(string code)
+        private async Task<KeyValuePair<string, string>> GetAccessTokenAndOpenIdAsync(string code)
         {
             var url =
                 $"https://api.weixin.qq.com/sns/oauth2/access_token?appid={AppId}&secret={AppSecret}&code={code}&grant_type=authorization_code";
 
-            var result = LoginManager.HttpGet(url);
+            var result = await LoginManager.GetStringAsync(url);
 
             if (result.Contains("errmsg"))
             {
@@ -46,13 +48,13 @@ namespace SSCMS.Login.Core
             return new KeyValuePair<string, string>(accessToken, openId);
         }
 
-        public void GetUserInfo(string code, out string nickname, out string headimgurl, out string unionid)
+        public async Task<WeixinUserInfo> GetUserInfoAsync(string code)
         {
-            nickname = headimgurl = unionid = string.Empty;
+            var userInfo = new WeixinUserInfo();
 
-            var pair = GetAccessTokenAndOpenId(code);
+            var pair = await GetAccessTokenAndOpenIdAsync(code);
             var url = $"https://api.weixin.qq.com/sns/userinfo?access_token={pair.Key}&openid={pair.Value}";
-            var result = LoginManager.HttpGet(url);
+            var result = await LoginManager.GetStringAsync(url);
 
             if (result.Contains("errmsg"))
             {
@@ -60,9 +62,11 @@ namespace SSCMS.Login.Core
             }
 
             var data = JObject.Parse(result);
-            nickname = data["nickname"].Value<string>();
-            headimgurl = data["headimgurl"].Value<string>();
-            unionid = data["unionid"].Value<string>();
+            userInfo.Nickname = data["nickname"].Value<string>();
+            userInfo.HeadImgUrl = data["headimgurl"].Value<string>();
+            userInfo.UnionId = data["unionid"].Value<string>();
+
+            return userInfo;
         }
     }
 }

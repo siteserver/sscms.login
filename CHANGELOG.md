@@ -1,3 +1,6 @@
+## 1.1.0
+* 迁移至.NET 6
+
 ## 1.0.7
 * 修复微信登录/QQ登录/微博登录 Invalid type parameter 'Microsoft.AspNetCore.Mvc.RedirectResult' specified for 'ActionResult' 报错
 

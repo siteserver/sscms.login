@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json.Linq;
+using SSCMS.Login.Models;
 
 namespace SSCMS.Login.Core
 {
@@ -47,17 +48,20 @@ namespace SSCMS.Login.Core
             return new KeyValuePair<string, string>(accessToken, uid);
         }
 
-        public void GetUserInfo(string code, out string name, out string screenName, out string avatarLarge, out string unionid)
+        public async Task<WeiboUserInfo> GetUserInfoAsync(string code)
         {
+            var userInfo = new WeiboUserInfo();
             var pair = GetAccessTokenAndUId(code);
-            unionid = pair.Value;
+            userInfo.UnionId = pair.Value;
             var url = $"https://api.weibo.com/2/users/show.json?access_token={pair.Key}&uid={pair.Value}";
-            var result = LoginManager.HttpGet(url);
+            var result = await LoginManager.GetStringAsync(url);
 
             var data = JObject.Parse(result);
-            name = data["name"].Value<string>();
-            screenName = data["screen_name"].Value<string>();
-            avatarLarge = data["avatar_large"].Value<string>();
+            userInfo.Name = data["name"].Value<string>();
+            userInfo.ScreenName = data["screen_name"].Value<string>();
+            userInfo.AvatarLarge = data["avatar_large"].Value<string>();
+
+            return userInfo;
         }
 
         public HttpResponseMessage HttpPost(string api, Dictionary<string, string> dict)

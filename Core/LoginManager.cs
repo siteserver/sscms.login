@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using SSCMS.Login.Abstractions;
@@ -103,32 +104,27 @@ namespace SSCMS.Login.Core
             await _pluginConfigRepository.SetAsync(PluginId, nameof(WeiboSettings.WeiboAppSecret), settings.WeiboAppSecret);
         }
 
-        public static string HttpGet(string url)
+        public static async Task<string> GetStringAsync(string url)
         {
             try
             {
-                var request = (HttpWebRequest)WebRequest.Create(url);
-                request.Method = "GET";
-                request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
-                request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36";
+                string html;
 
-                //响应
-                var response = (HttpWebResponse)request.GetResponse();
-                var text = string.Empty;
-                using (var responseStm = response.GetResponseStream())
+                using (var client = new HttpClient())
                 {
-                    if (responseStm != null)
-                    {
-                        var redStm = new StreamReader(responseStm, Encoding.UTF8);
-                        text = redStm.ReadToEnd();
-                    }
+                    html = await client.GetStringAsync(url);
                 }
 
-                return text;
+                // using (var client = new WebClient())
+                // {
+                //     html = client.DownloadString(url);
+                // }
+
+                return html;
             }
-            catch (Exception ex)
+            catch
             {
-                return ex.Message;
+                throw new Exception($"页面地址“{url}”无法访问！");
             }
         }
 

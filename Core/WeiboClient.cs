@@ -15,11 +15,11 @@ namespace SSCMS.Login.Core
         public string AppSecret { get; }
         public string RedirectUrl { get; }
 
-        public WeiboClient(string appKey, string appSecret, string redirectUrl)
+        public WeiboClient(string appKey, string appSecret, string host, string redirectUrl)
         {
             AppKey = appKey;
             AppSecret = appSecret;
-            RedirectUrl = ApiUtils.GetAuthRedirectUrl(OAuthType.Weibo, redirectUrl);
+            RedirectUrl = ApiUtils.GetAuthRedirectUrl(host, OAuthType.Weibo, redirectUrl);
         }
 
         public string GetAuthorizationUrl()

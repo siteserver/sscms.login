@@ -15,6 +15,7 @@ namespace SSCMS.Login.Controllers
         public async Task<ActionResult<GetRedirectResult>> GetRedirect([FromRoute] string type,
             [FromQuery] GetRedirectRequest request)
         {
+            var host = ApiUtils.GetHost(Request);
             var oAuthType = OAuthType.Parse(type);
 
             var userName = string.Empty;
@@ -22,7 +23,7 @@ namespace SSCMS.Login.Controllers
             if (oAuthType == OAuthType.Weixin)
             {
                 var settings = await _loginManager.GetWeixinSettingsAsync();
-                var client = new WeixinClient(settings.WeixinAppId, settings.WeixinAppSecret, request.RedirectUrl);
+                var client = new WeixinClient(settings.WeixinAppId, settings.WeixinAppSecret, host, request.RedirectUrl);
 
                 var userInfo = await client.GetUserInfoAsync(request.Code);
 
@@ -52,7 +53,7 @@ namespace SSCMS.Login.Controllers
             else if (oAuthType == OAuthType.Qq)
             {
                 var settings = await _loginManager.GetQqSettingsAsync();
-                var client = new QqClient(settings.QqAppId, settings.QqAppKey, request.RedirectUrl);
+                var client = new QqClient(settings.QqAppId, settings.QqAppKey, host, request.RedirectUrl);
 
                 var userInfo = await client.GetUserInfoAsync(request.Code);
 
@@ -82,7 +83,7 @@ namespace SSCMS.Login.Controllers
             else if (oAuthType == OAuthType.Weibo)
             {
                 var settings = await _loginManager.GetWeiboSettingsAsync();
-                var client = new WeiboClient(settings.WeiboAppKey, settings.WeiboAppSecret, request.RedirectUrl);
+                var client = new WeiboClient(settings.WeiboAppKey, settings.WeiboAppSecret, host, request.RedirectUrl);
 
                 var userInfo = await client.GetUserInfoAsync(request.Code);
 

@@ -15,11 +15,11 @@ namespace SSCMS.Login.Core
         public string AppKey { get; }
         public string RedirectUrl { get; }
 
-        public QqClient(string appId, string appKey, string redirectUrl)
+        public QqClient(string appId, string appKey, string host, string redirectUrl)
         {
             AppId = appId;
             AppKey = appKey;
-            RedirectUrl = ApiUtils.GetAuthRedirectUrl(OAuthType.Qq, redirectUrl);
+            RedirectUrl = ApiUtils.GetAuthRedirectUrl(host, OAuthType.Qq, redirectUrl);
         }
 
         public string GetAuthorizationUrl()

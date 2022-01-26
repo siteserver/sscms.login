@@ -15,11 +15,11 @@ namespace SSCMS.Login.Core
         public string AppSecret { get; }
         public string RedirectUrl { get; }
 
-        public WeixinClient(string appId, string appSecret, string redirectUrl)
+        public WeixinClient(string appId, string appSecret, string host, string redirectUrl)
         {
             AppId = appId;
             AppSecret = appSecret;
-            RedirectUrl = ApiUtils.GetAuthRedirectUrl(OAuthType.Weixin, redirectUrl);
+            RedirectUrl = ApiUtils.GetAuthRedirectUrl(host, OAuthType.Weixin, redirectUrl);
         }
 
         public string GetAuthorizationUrl()

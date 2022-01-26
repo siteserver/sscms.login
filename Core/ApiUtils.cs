@@ -1,4 +1,5 @@
 ﻿using System.Web;
+using Microsoft.AspNetCore.Http;
 
 namespace SSCMS.Login.Core
 {
@@ -29,14 +30,19 @@ namespace SSCMS.Login.Core
             return $"/api/login/auth/{type.Value}?redirectUrl={HttpUtility.UrlEncode(redirectUrl)}";
         }
 
-        public static string GetAuthRedirectUrl(OAuthType authType, string redirectUrl)
+        public static string GetAuthRedirectUrl(string host, OAuthType authType, string redirectUrl)
         {
-            return $"/api/login/auth/{authType.Value}/redirect?redirectUrl={HttpUtility.UrlEncode(redirectUrl)}";
+            return $"{host}/api/login/auth/{authType.Value}/redirect?redirectUrl={HttpUtility.UrlEncode(redirectUrl)}";
         }
 
         public static string GetHomeUrl()
         {
             return "/home/";
+        }
+
+        public static string GetHost(HttpRequest request)
+        {
+            return $"{request.Scheme}://{request.Host.Host}";
         }
     }
 }

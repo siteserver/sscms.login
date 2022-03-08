@@ -94,7 +94,7 @@ namespace SSCMS.Login.Core
 
             if (string.IsNullOrEmpty(type))
             {
-                type = "login";
+                type = "login-account";
             }
 
             var elementId = $"iframe_{StringUtils.GetShortGuid(false)}";

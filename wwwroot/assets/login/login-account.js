@@ -2,6 +2,7 @@ var $url = '/login/account';
 
 var data = utils.init({
   redirectUrl: decodeURIComponent(utils.getQueryString('redirectUrl')),
+  token: decodeURIComponent(utils.getQueryString('token')),
   pageType: '',
   captcha: '',
   captchaValue: '',
@@ -85,7 +86,7 @@ var methods = {
     utils.loading(true);
     $api.post($url, _.assign({}, this.form)).then(function (response) {
       var res = response.data;
-      
+
       $this.loginSuccess(res.user, res.token, true);
     }).catch(function (error) {
       utils.error(error);
@@ -129,6 +130,10 @@ var $vue = new Vue({
   data: data,
   methods: methods,
   created: function () {
+    if (this.token) {
+      localStorage.removeItem(ACCESS_TOKEN_NAME);
+      localStorage.setItem(ACCESS_TOKEN_NAME, this.token);
+    }
     this.apiGet();
   }
 });

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -110,11 +111,19 @@ namespace SSCMS.Login.Controllers
             }
 
             var token = _authManager.AuthenticateUser(await _userRepository.GetByUserNameAsync(userName), true);
-            return new GetRedirectResult
+
+            if (oAuthType == OAuthType.Qq || oAuthType == OAuthType.Weibo)
             {
-                RedirectUrl = request.RedirectUrl,
-                Token = token
-            };
+                return Redirect(PageUtils.AddQueryString(request.RedirectUrl, $"token={token}"));
+            }
+            else
+            {
+                return new GetRedirectResult
+                {
+                    RedirectUrl = request.RedirectUrl,
+                    Token = token
+                };
+            }
         }
     }
 }

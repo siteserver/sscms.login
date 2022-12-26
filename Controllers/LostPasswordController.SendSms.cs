@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SSCMS.Dto;
 using SSCMS.Enums;
@@ -21,7 +20,7 @@ namespace SSCMS.Login.Controllers
 
             var code = StringUtils.GetRandomInt(100000, 999999);
             var (success, errorMessage) =
-                await _smsManager.SendAsync(request.Mobile, SmsCodeType.ChangePassword, code);
+                await _smsManager.SendSmsAsync(request.Mobile, SmsCodeType.ChangePassword, code);
             if (!success)
             {
                 return this.Error(errorMessage);

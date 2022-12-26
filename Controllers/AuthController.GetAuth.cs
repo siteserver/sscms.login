@@ -16,7 +16,7 @@ namespace SSCMS.Login.Controllers
             if (string.IsNullOrEmpty(redirectUrl))
             {
                 redirectUrl = ApiUtils.GetHomeUrl();
-            }            
+            } 
 
             var url = string.Empty;
 

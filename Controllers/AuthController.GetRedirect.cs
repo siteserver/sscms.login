@@ -112,18 +112,18 @@ namespace SSCMS.Login.Controllers
 
             var token = _authManager.AuthenticateUser(await _userRepository.GetByUserNameAsync(userName), true);
 
-            if (oAuthType == OAuthType.Qq || oAuthType == OAuthType.Weibo)
-            {
+            // if (oAuthType == OAuthType.Qq || oAuthType == OAuthType.Weibo)
+            // {
                 return Redirect(PageUtils.AddQueryString(request.RedirectUrl, $"token={token}"));
-            }
-            else
-            {
-                return new GetRedirectResult
-                {
-                    RedirectUrl = request.RedirectUrl,
-                    Token = token
-                };
-            }
+            // }
+            // else
+            // {
+            //     return new GetRedirectResult
+            //     {
+            //         RedirectUrl = request.RedirectUrl,
+            //         Token = token
+            //     };
+            // }
         }
     }
 }

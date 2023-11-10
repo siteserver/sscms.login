@@ -1,4 +1,5 @@
-var $url = '/login/account';
+var $apiUrl = utils.getQueryString("apiUrl") || $formConfigApiUrl;
+var $url = $apiUrl +'/login/account';
 
 var data = utils.init({
   redirectUrl: decodeURIComponent(utils.getQueryString('redirectUrl')),
@@ -54,7 +55,7 @@ var methods = {
     var $this = this;
 
     utils.loading(this, true);
-    $api.post('/v1/captcha').then(function (response) {
+    $api.post($apiUrl +'/v1/captcha').then(function (response) {
       var res = response.data;
 
       $this.captchaValue = res.value;
@@ -69,7 +70,7 @@ var methods = {
   apiCaptchaCheck: function () {
     var $this = this;
 
-    $api.post('/v1/captcha/actions/check', {
+    $api.post($apiUrl +'/v1/captcha/actions/check', {
       captcha: this.form.captcha,
       value: this.captchaValue
     }).then(function (res) {

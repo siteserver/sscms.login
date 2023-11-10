@@ -99,8 +99,7 @@ namespace SSCMS.Login.Core
 
             var elementId = $"iframe_{StringUtils.GetShortGuid(false)}";
             var libUrl = _pathManager.GetApiHostUrl(site, "assets/login/lib/iframe-resizer-3.6.3/iframeResizer.min.js");
-            var pageUrl = _pathManager.GetApiHostUrl(site, $"assets/login/templates/{type}/index.html?apiUrl={HttpUtility.UrlEncode(apiUrl)}&redirectUrl={HttpUtility.UrlEncode(redirectUrl)}");
-
+            var pageUrl = await _pathManager.GetSiteUrlAsync(site, $"assets/login/templates/{type}/index.html?apiUrl={HttpUtility.UrlEncode(apiUrl)}&redirectUrl={HttpUtility.UrlEncode(redirectUrl)}",false);
             return $@"
 <iframe id=""{elementId}"" frameborder=""0"" scrolling=""no"" src=""{pageUrl}"" style=""width: 1px;min-width: 100%;""></iframe>
 <script type=""text/javascript"" src=""{libUrl}""></script>

@@ -18,6 +18,7 @@ namespace SSCMS.Login.Controllers
         {
             var host = ApiUtils.GetHost(Request);
             var oAuthType = OAuthType.Parse(type);
+            var config = await _configRepository.GetAsync();
 
             var userName = string.Empty;
 
@@ -40,7 +41,7 @@ namespace SSCMS.Login.Controllers
                         AvatarUrl = userInfo.HeadImgUrl
                     };
 
-                    var (newUser, _) = await _userRepository.InsertAsync(user, Guid.NewGuid().ToString(), PageUtils.GetIpAddress(Request));
+                    var (newUser, _) = await _userRepository.InsertAsync(user, Guid.NewGuid().ToString(), config.IsUserRegistrationChecked, PageUtils.GetIpAddress(Request));
                     userName = newUser.UserName;
 
                     await _oAuthRepository.InsertAsync(new OAuth
@@ -70,7 +71,7 @@ namespace SSCMS.Login.Controllers
                         AvatarUrl = userInfo.AvatarUrl
                     };
 
-                    var (newUser, _) = await _userRepository.InsertAsync(user, Guid.NewGuid().ToString(), PageUtils.GetIpAddress(Request));
+                    var (newUser, _) = await _userRepository.InsertAsync(user, Guid.NewGuid().ToString(), config.IsUserRegistrationChecked, PageUtils.GetIpAddress(Request));
                     userName = newUser.UserName;
 
                     await _oAuthRepository.InsertAsync(new OAuth
@@ -91,14 +92,16 @@ namespace SSCMS.Login.Controllers
                 userName = await _oAuthRepository.GetUserNameAsync(OAuthType.Weibo.Value, userInfo.UnionId);
                 if (string.IsNullOrEmpty(userName))
                 {
-                    var user = new User();
-                    user.UserName = await _userRepository.IsUserNameExistsAsync(userInfo.Name)
+                    var user = new User
+                    {
+                        UserName = await _userRepository.IsUserNameExistsAsync(userInfo.Name)
                         ? Regex.Replace(Convert.ToBase64String(Guid.NewGuid().ToByteArray()), "[/+=]", "")
-                        : userInfo.Name;
-                    user.DisplayName = userInfo.ScreenName;
-                    user.AvatarUrl = userInfo.AvatarLarge;
+                        : userInfo.Name,
+                        DisplayName = userInfo.ScreenName,
+                        AvatarUrl = userInfo.AvatarLarge
+                    };
 
-                    var (newUser, _) = await _userRepository.InsertAsync(user, Guid.NewGuid().ToString(), PageUtils.GetIpAddress(Request));
+                    var (newUser, _) = await _userRepository.InsertAsync(user, Guid.NewGuid().ToString(), config.IsUserRegistrationChecked, PageUtils.GetIpAddress(Request));
                     userName = newUser.UserName;
 
                     await _oAuthRepository.InsertAsync(new OAuth

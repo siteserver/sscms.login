@@ -2,11 +2,11 @@
   "name": "login",
   "displayName": "用户登录插件",
   "description": "SSCMS 用户登录插件",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "license": "AGPL-3.0",
   "publisher": "sscms",
   "engines": {
-    "sscms": "^7.2.1"
+    "sscms": "^7.2.2"
   },
   "categories": [
     "Other"

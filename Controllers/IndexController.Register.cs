@@ -19,8 +19,9 @@ namespace SSCMS.Login.Controllers
                 Mobile = request.Mobile
             };
 
+            var config = await _configRepository.GetAsync();
             var (newUser, errorMessage) =
-                await _userRepository.InsertAsync(user, request.Password, PageUtils.GetIpAddress(Request));
+                await _userRepository.InsertAsync(user, request.Password, config.IsUserRegistrationChecked, PageUtils.GetIpAddress(Request));
             if (newUser == null)
             {
                 return this.Error(errorMessage);

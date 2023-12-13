@@ -15,16 +15,18 @@ namespace SSCMS.Login.Controllers
         private const string RouteIsCodeCorrect = "actions/iscodecorrect";
 
         private readonly IAuthManager _authManager;
+        private readonly ICacheManager _cacheManager;
+        private readonly IConfigRepository _configRepository;
         private readonly IUserRepository _userRepository;
         private readonly ILogRepository _logRepository;
-        private readonly ICacheManager _cacheManager;
 
-        public IndexController(IAuthManager authManager, IUserRepository userRepository, ILogRepository logRepository, ICacheManager cacheManager)
+        public IndexController(IAuthManager authManager, ICacheManager cacheManager, IConfigRepository configRepository, IUserRepository userRepository, ILogRepository logRepository)
         {
             _authManager = authManager;
+            _cacheManager = cacheManager;
+            _configRepository = configRepository;
             _userRepository = userRepository;
             _logRepository = logRepository;
-            _cacheManager = cacheManager;
         }
 
         public class EditRequest

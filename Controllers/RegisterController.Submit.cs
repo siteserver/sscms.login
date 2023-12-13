@@ -13,7 +13,8 @@ namespace SSCMS.Login.Controllers
         [HttpPost, Route(Route)]
         public async Task<ActionResult<BoolResult>> Submit([FromBody] User request)
         {
-            var (user, errorMessage) = await _userRepository.InsertAsync(request, request.Password, PageUtils.GetIpAddress(Request));
+            var config = await _configRepository.GetAsync();
+            var (user, errorMessage) = await _userRepository.InsertAsync(request, request.Password, config.IsUserRegistrationChecked, PageUtils.GetIpAddress(Request));
             if (user == null)
             {
                 return this.Error($"用户注册失败：{errorMessage}");
